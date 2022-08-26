@@ -1,5 +1,6 @@
 package br.com.desafio.totalshake.model;
 
+import br.com.desafio.totalshake.dto.PedidoRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -23,17 +24,23 @@ public class Pedido {
     @JoinColumn(name = "item_pedido_id")
     private List<ItemPedido> itensPedidoList;
 
-    @PrePersist
-    void prePersist(){
-        this.dataHora = LocalDateTime.now();
-    }
-
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Pedido(LocalDateTime dataHora, Status status, List<ItemPedido> itens) {
+        this.dataHora = dataHora;
+        this.status = status;
+        this.itensPedidoList = itens;
+    }
+
+    public void updatePedido(PedidoRequest pedidoRequest) {
+        this.dataHora = LocalDateTime.parse(pedidoRequest.getDataHora());
+        this.status = Status.valueOf(pedidoRequest.getStatus());
     }
 
     public LocalDateTime getDataHora() {
