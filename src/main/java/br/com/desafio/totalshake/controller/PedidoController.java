@@ -35,8 +35,8 @@ public class PedidoController {
     @PostMapping(path = "/pedido/", consumes = "application/json")
     public void addPedido(@RequestBody PedidoRequest pedidoRequest) {
 
-        Status status = Status.valueOf(pedidoRequest.getStatus());
-        LocalDateTime localDateTime = LocalDateTime.parse(pedidoRequest.getDataHora());
+        Status status = pedidoRequest.getStatus();
+        LocalDateTime localDateTime = pedidoRequest.getDataHora();
         List<ItemPedidoRequest> itemPedidoRequests = pedidoRequest.getItensPedidoList();
 
         Pedido pedido = new Pedido(localDateTime, status, Collections.emptyList());

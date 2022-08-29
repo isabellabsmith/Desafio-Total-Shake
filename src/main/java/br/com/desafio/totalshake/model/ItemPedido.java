@@ -4,25 +4,32 @@ import br.com.desafio.totalshake.dto.ItemPedidoResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name="item_pedido")
-public class ItemPedido {
+public class ItemPedido implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GenericGenerator(name = "native_generator", strategy = "native")
+    @GeneratedValue(generator = "native_generator")
     private Long id;
-    @NotBlank
     private Integer quantidade;
-    @NotBlank
     private String descricao;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pedido_id")
+    @JoinColumn(name = "pedido_id", nullable = false)
     private Pedido pedido;
+
+    public ItemPedido(Integer quantidade, String descricao) {
+        this.quantidade = quantidade;
+        this.descricao = descricao;
+    }
 
     public ItemPedido(Integer quantidade, String descricao, Pedido pedido) {
         this.quantidade = quantidade;

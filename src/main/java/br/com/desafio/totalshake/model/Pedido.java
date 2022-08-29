@@ -4,24 +4,27 @@ import br.com.desafio.totalshake.dto.PedidoRequest;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Entity
 @Data
+@Entity
 @AllArgsConstructor
 @NoArgsConstructor
-public class Pedido {
-    @JoinColumn(name = "item_pedido_id")
+public class Pedido implements Serializable {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
+    @GenericGenerator(name = "native_generator", strategy = "native")
+    @GeneratedValue(generator = "native_generator")
     private Long id;
     private LocalDateTime dataHora;
+    @Enumerated(EnumType.STRING)
     private Status status;
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "pedido")
-    @JoinColumn(name = "item_pedido_id")
+    @OneToMany(mappedBy = "pedido", orphanRemoval = true, cascade = CascadeType.ALL)
     private List<ItemPedido> itensPedidoList;
 
     public Long getId() {
@@ -39,8 +42,8 @@ public class Pedido {
     }
 
     public void updatePedido(PedidoRequest pedidoRequest) {
-        this.dataHora = LocalDateTime.parse(pedidoRequest.getDataHora());
-        this.status = Status.valueOf(pedidoRequest.getStatus());
+        this.dataHora = pedidoRequest.getDataHora();
+        this.status = pedidoRequest.getStatus();
     }
 
     public LocalDateTime getDataHora() {
@@ -59,25 +62,21 @@ public class Pedido {
         this.status = status;
     }
 
-    public List<ItemPedido> getItensPedidoList() {
-        return itensPedidoList;
-    }
-
     public void setItensPedidoList(List<ItemPedido> itensPedidoList) {
         this.itensPedidoList = itensPedidoList;
     }
 
-    public ItemPedido addItemPedido ( ItemPedido itemPedido ) {
-        getItensPedidoList().add( itemPedido );
-        itemPedido.setPedido( this );
+    public List<ItemPedido> getItensPedidoList() {
+        return itensPedidoList;
+    }
 
+    public ItemPedido addItemPedido ( ItemPedido itemPedido ) {
+        itensPedidoList.add(itemPedido);
         return itemPedido;
     }
 
     public ItemPedido removeItemPedido ( ItemPedido itemPedido ) {
-        getItensPedidoList().remove( itemPedido );
-        itemPedido.setPedido( null );
-
+        itensPedidoList.remove(itemPedido);
         return itemPedido;
     }
 }

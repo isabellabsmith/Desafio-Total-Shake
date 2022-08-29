@@ -27,7 +27,7 @@ public class PedidoRequest {
         this.id = serialVersionUID;
     }
 
-    public CharSequence getDataHora() {
+    public LocalDateTime getDataHora() {
         return dataHora;
     }
 
@@ -36,7 +36,7 @@ public class PedidoRequest {
         this.dataHora = LocalDateTime.now();
     }
 
-    public String getStatus() {
+    public Status getStatus() {
         return status;
     }
 

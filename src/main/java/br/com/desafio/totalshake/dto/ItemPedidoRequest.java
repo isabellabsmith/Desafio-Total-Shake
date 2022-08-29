@@ -13,7 +13,6 @@ import java.io.Serializable;
 public class ItemPedidoRequest implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-
     private Long id;
     private Integer quantidade;
     private String descricao;
@@ -23,10 +22,6 @@ public class ItemPedidoRequest implements Serializable {
 
     public Long getIdPedido() {
         return idPedido;
-    }
-
-    public void setIdPedido(Long idPedido) {
-        this.idPedido = idPedido;
     }
 
     public Integer getQuantidade() {

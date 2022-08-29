@@ -3,7 +3,7 @@ use totalshake;
 describe item_pedido;
 
 create table pedido(
-pedido_id int PRIMARY KEY AUTO_INCREMENT,
+id int PRIMARY KEY AUTO_INCREMENT,
 dataHora timestamp,
 status enum("REALIZADO",
     "CANCELADO",
@@ -16,10 +16,10 @@ status enum("REALIZADO",
 );
 
 create table item_pedido(
-item_pedido_id int PRIMARY KEY AUTO_INCREMENT,
+id int PRIMARY KEY AUTO_INCREMENT,
 quantidade int,
 descricao varchar(35),
 pedido_id int,
 FOREIGN KEY (pedido_id)
-REFERENCES pedido(pedido_id)
+REFERENCES pedido(id)
 );
