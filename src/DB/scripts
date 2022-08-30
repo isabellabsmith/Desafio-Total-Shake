@@ -5,14 +5,7 @@ describe item_pedido;
 create table pedido(
 id int PRIMARY KEY AUTO_INCREMENT,
 dataHora timestamp,
-status enum("REALIZADO",
-    "CANCELADO",
-    "PAGO",
-    "NAO_AUTORIZADO",
-    "CONFIRMADO",
-    "PRONTO",
-    "SAIU_PARA_ENTREGA",
-    "ENTREGUE") not null
+status varchar(30)
 );
 
 create table item_pedido(
